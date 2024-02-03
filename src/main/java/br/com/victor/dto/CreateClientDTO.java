@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import br.com.victor.entities.Client;
 
 public record CreateClientDTO(
-    @CPF
+    @CPF(message = "The cpf is invalid!")
     String cpf
 ) {
     
