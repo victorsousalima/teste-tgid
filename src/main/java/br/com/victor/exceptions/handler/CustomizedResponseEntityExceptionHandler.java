@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import br.com.victor.exceptions.ExceptionResponse;
 import br.com.victor.exceptions.ObjectAlreadyExistsException;
 import br.com.victor.exceptions.ObjectNotFoundException;
+import br.com.victor.exceptions.ValueTransactionInvalidException;
 import br.com.victor.dto.DataErrorsValidationDTO;
 
 @RestControllerAdvice
@@ -39,11 +40,18 @@ public class CustomizedResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<DataErrorsValidationDTO>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<List<DataErrorsValidationDTO>> handleMethodArgumentNotValidExceptions(MethodArgumentNotValidException ex) {
         var erros = ex.getFieldErrors();
 
         List<DataErrorsValidationDTO> fieldsInvalid = erros.stream().map(e -> new DataErrorsValidationDTO(e)).toList();
 
         return new ResponseEntity<>(fieldsInvalid, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ValueTransactionInvalidException.class)
+    public ResponseEntity<ExceptionResponse> handleValueTransactionInvalidExceptions(ValueTransactionInvalidException ex) {
+        ExceptionResponse response = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), Instant.now());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

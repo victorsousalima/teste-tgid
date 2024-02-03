@@ -2,6 +2,7 @@ package br.com.victor.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.victor.entities.Company;
 import br.com.victor.exceptions.ObjectAlreadyExistsException;
@@ -13,6 +14,7 @@ public class CompanyService {
     @Autowired
     private CompanyRepository repository;
 
+    @Transactional
     public Company create(Company company) {
         Company companyExists = repository.findByCnpj(company.getCnpj());
 
