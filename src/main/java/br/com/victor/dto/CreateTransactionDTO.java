@@ -1,6 +1,5 @@
 package br.com.victor.dto;
 
-import br.com.victor.entities.Transaction;
 import br.com.victor.entities.enums.TypeTransaction;
 
 public record CreateTransactionDTO(

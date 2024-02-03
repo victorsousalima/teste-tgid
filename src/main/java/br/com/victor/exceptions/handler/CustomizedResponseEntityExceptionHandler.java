@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import br.com.victor.exceptions.ExceptionResponse;
 import br.com.victor.exceptions.ObjectAlreadyExistsException;
 import br.com.victor.exceptions.ObjectNotFoundException;
+import br.com.victor.exceptions.OfflineServiceException;
 import br.com.victor.exceptions.ValueTransactionInvalidException;
 import br.com.victor.dto.DataErrorsValidationDTO;
 
@@ -53,5 +54,12 @@ public class CustomizedResponseEntityExceptionHandler {
         ExceptionResponse response = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), Instant.now());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(OfflineServiceException.class)
+    public ResponseEntity<ExceptionResponse> handleOfflineServiceExceptions(OfflineServiceException ex) {
+        ExceptionResponse response = new ExceptionResponse(HttpStatus.SERVICE_UNAVAILABLE.value(), ex.getMessage(), Instant.now());
+
+        return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
     }
 }

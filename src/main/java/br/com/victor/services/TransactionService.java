@@ -48,7 +48,7 @@ public class TransactionService {
         if (createTransaction.typeTransaction().equals(TypeTransaction.DEPOSIT)) {
             deposit(createTransaction, company);
         }
-        else if (createTransaction.typeTransaction().equals(TypeTransaction.DRAW)) {
+        else if (createTransaction.typeTransaction().equals(TypeTransaction.WITHDRAW)) {
             withdraw(createTransaction, company);
         }
 
