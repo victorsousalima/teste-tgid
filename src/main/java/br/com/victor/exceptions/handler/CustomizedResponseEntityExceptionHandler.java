@@ -2,18 +2,20 @@ package br.com.victor.exceptions.handler;
 
 import java.time.Instant;
 
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.victor.exceptions.ExceptionResponse;
 import br.com.victor.exceptions.ObjectAlreadyExistsException;
 import br.com.victor.exceptions.ObjectNotFoundException;
+import br.com.victor.dto.DataErrorsValidationDTO;
 
 @RestControllerAdvice
-public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
+public class CustomizedResponseEntityExceptionHandler {
     
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleInternalServerErrorExceptions(Exception ex) {
@@ -34,5 +36,14 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         ExceptionResponse response = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), Instant.now());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<List<DataErrorsValidationDTO>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        var erros = ex.getFieldErrors();
+
+        List<DataErrorsValidationDTO> fieldsInvalid = erros.stream().map(e -> new DataErrorsValidationDTO(e)).toList();
+
+        return new ResponseEntity<>(fieldsInvalid, HttpStatus.BAD_REQUEST);
     }
 }

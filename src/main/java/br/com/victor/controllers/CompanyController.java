@@ -8,23 +8,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.victor.dto.ClientDTO;
-import br.com.victor.dto.CreateClientDTO;
-import br.com.victor.entities.Client;
-import br.com.victor.services.ClientService;
+import br.com.victor.dto.CompanyDTO;
+import br.com.victor.dto.CreateCompanyDTO;
+import br.com.victor.entities.Company;
+import br.com.victor.services.CompanyService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/client")
-public class ClientController {
+@RequestMapping("/company")
+public class CompanyController {
     
     @Autowired
-    private ClientService service;
+    private CompanyService service;
 
     @PostMapping()
-    public ResponseEntity<ClientDTO> createClient(@RequestBody @Valid CreateClientDTO createClient) {
-        Client client = service.create(createClient.convertToClient());
+    public ResponseEntity<CompanyDTO> createCompany(@RequestBody @Valid CreateCompanyDTO createCompany) {
+        Company company = service.create(createCompany.convertToCompany());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ClientDTO(client));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CompanyDTO(company));
     }
 }
