@@ -2,13 +2,13 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/testeTGID
-    username: postgres
-    password: admin123
+    username: ${POSTGRESQL_USER}
+    password: ${POSTGRESQL_PASSWORD}
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${JAVAMAILSENDER_EMAIL}
-    password: ${JAVAMAILSENDER_PASSWORD}
+    username: ${EMAIL_SENDER}
+    password: ${PASSWORD_EMAIL_SENDER}
     properties:
       mail:
         smtp:

@@ -17,7 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Transaction")
+@Table(name = "Transactions")
 public class Transaction {
     
     @Id
@@ -40,6 +40,7 @@ public class Transaction {
     private Double value;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name = "realized_at")
     private LocalDateTime realizedAt;
 
     public Transaction() {}

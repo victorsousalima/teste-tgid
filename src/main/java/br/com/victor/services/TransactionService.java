@@ -3,6 +3,7 @@ package br.com.victor.services;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.victor.dto.CreateTransactionDTO;
@@ -16,6 +17,7 @@ import br.com.victor.repositories.ClientRepository;
 import br.com.victor.repositories.CompanyRepository;
 import br.com.victor.repositories.TransactionRepository;
 
+@Service
 public class TransactionService {
     
     @Autowired
@@ -59,7 +61,6 @@ public class TransactionService {
         return transaction;
     }
 
-    @Transactional
     private void deposit(CreateTransactionDTO dataTransaction, Company company) {
         Double tax = dataTransaction.value() * (company.getSystemRate() / 100.0);
         Double newBalanceCompany = company.getBalance() + (dataTransaction.value() - tax);
@@ -67,7 +68,6 @@ public class TransactionService {
         company.setBalance(newBalanceCompany);
     }
 
-    @Transactional
     private void withdraw(CreateTransactionDTO dataTransaction, Company company) {
         Double tax = dataTransaction.value() * (company.getSystemRate() / 100.0);
         Double newBalanceCompany = company.getBalance() - (dataTransaction.value() + tax);
